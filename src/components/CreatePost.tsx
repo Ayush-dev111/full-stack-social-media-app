@@ -9,6 +9,7 @@ import { ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { createPost } from "@/actions/post.action";
 import toast from "react-hot-toast";
+import ImageUpload from "./ImageUpload";
 
 function CreatePost() {
   const { user } = useUser();
@@ -20,20 +21,19 @@ function CreatePost() {
   const handleSubmit = async () => {
     setIsPosting(true);
     try {
-        const result = await createPost(content, imageUrl);
-        if(result.success){
-            setContent("");
-            setImageUrl("");
-            setShowImageUpload(false);
+      const result = await createPost(content, imageUrl);
+      if (result?.success) {
+        setContent("");
+        setImageUrl("");
+        setShowImageUpload(false);
 
-            toast.success("Post created successfully");
-        }
-
+        toast.success("Post created successfully");
+      }
     } catch (error) {
-        console.error("Failed to create post");
-        toast.error("Failed to create post");
-    }finally{
-        setIsPosting(false);
+      console.error("Failed to create post");
+      toast.error("Failed to create post");
+    } finally {
+      setIsPosting(false);
     }
   };
 
@@ -53,6 +53,19 @@ function CreatePost() {
               disabled={isPosting}
             />
           </div>
+
+          {(showImageUpload || imageUrl) && (
+            <div className="border rounded-lg p-4">
+              <ImageUpload
+                endpoint="postImage"
+                value={imageUrl}
+                onChange={(ufsUrl) => {
+                  setImageUrl(ufsUrl);
+                  if (!ufsUrl) setShowImageUpload(false);
+                }}
+              />
+            </div>
+          )}
 
           <div className="flex items-center justify-between border-t pt-4">
             <div className="flex space-x-2">
