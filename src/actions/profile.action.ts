@@ -45,6 +45,7 @@ export async function getUserPosts(userId: string) {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             username: true,
             image: true,
@@ -167,7 +168,7 @@ export async function updateProfile(formData: FormData) {
       },
     });
 
-    revalidatePath("/profile");
+    revalidatePath(`/profile/${user.username}`);
     return { success: true, user };
   } catch (error) {
     console.error("Error updating profile:", error);

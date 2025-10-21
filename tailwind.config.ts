@@ -60,4 +60,3 @@ const config: Config = withUt({
   },
   plugins: [require("tailwindcss-animate")],
 });
-export default config;

@@ -28,6 +28,7 @@ import {
   LinkIcon,
   MapPinIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -48,6 +49,7 @@ function ProfilePageClient({
   user,
 }: ProfilePageClientProps) {
   const { user: currentUser } = useUser();
+  const router = useRouter();
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
   const [isUpdatingFollow, setIsUpdatingFollow] = useState(false);
@@ -69,6 +71,7 @@ function ProfilePageClient({
     if (result.success) {
       setShowEditDialog(false);
       toast.success("Profile updated successfully");
+      router.refresh();
     }
   };
 
