@@ -46,6 +46,7 @@ export async function getPosts(){
             select:{
               id: true,
               name: true,
+              clerkId: true,
               image: true,
               username: true
             }
