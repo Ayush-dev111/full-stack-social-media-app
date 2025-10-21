@@ -36,117 +36,72 @@ export async function getProfileByUsername(username: string) {
 }
 
 export async function getUserPosts(userId: string) {
-  try {
-    const posts = await prisma.post.findMany({
-      where: {
-        authorId: userId,
-      },
-      include: {
-        author: {
-          select: {
-            id: true,
-            clerkId: true,
-            name: true,
-            username: true,
-            image: true,
-          },
+  return await prisma.post.findMany({
+    where: { authorId: userId },
+    include: {
+      author: {
+        select: {
+          id: true,
+          username: true,
+          name: true,
+          image: true,
+          clerkId: true, 
         },
-        comments: {
-          include: {
-            author: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
-                image: true,
-              },
+      },
+      comments: {
+        include: {
+          author: {
+            select: {
+              id: true,
+              username: true,
+              name: true,
+              image: true,
+              clerkId: true, 
             },
           },
-          orderBy: {
-            createdAt: "asc",
-          },
-        },
-        likes: {
-          select: {
-            userId: true,
-          },
-        },
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    return posts;
-  } catch (error) {
-    console.error("Error fetching user posts:", error);
-    throw new Error("Failed to fetch user posts");
-  }
+      likes: true,
+      _count: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
 }
+
 
 export async function getUserLikedPosts(userId: string) {
-  try {
-    const likedPosts = await prisma.post.findMany({
-      where: {
-        likes: {
-          some: {
-            userId,
-          },
+  return await prisma.post.findMany({
+    where: { likes: { some: { userId } } },
+    include: {
+      author: {
+        select: {
+          id: true,
+          username: true,
+          name: true,
+          image: true,
+          clerkId: true, 
         },
       },
-      include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            username: true,
-            image: true,
-          },
-        },
-        comments: {
-          include: {
-            author: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
-                image: true,
-              },
+      comments: {
+        include: {
+          author: {
+            select: {
+              id: true,
+              username: true,
+              name: true,
+              image: true,
+              clerkId: true, 
             },
           },
-          orderBy: {
-            createdAt: "asc",
-          },
-        },
-        likes: {
-          select: {
-            userId: true,
-          },
-        },
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    return likedPosts;
-  } catch (error) {
-    console.error("Error fetching liked posts:", error);
-    throw new Error("Failed to fetch liked posts");
-  }
+      likes: true,
+      _count: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
 }
+
 
 export async function updateProfile(formData: FormData) {
   try {
