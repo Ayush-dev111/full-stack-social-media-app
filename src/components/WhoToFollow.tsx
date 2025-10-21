@@ -1,3 +1,4 @@
+"use client"
 
 import { getRandomUsers } from "@/actions/user.action";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
