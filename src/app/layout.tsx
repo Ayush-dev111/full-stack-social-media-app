@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Social book",
+  title: "SociaLink",
   description: "A modern social media application powered by Next.js",
 };
 
